@@ -6,30 +6,46 @@
     <title>Testing HTML QrCode</title>
 </head>
 <body>
-    <div id="reader" width="600px">
+    <h1>Leia QRCODES</h1>
+    <div style="display: flex; justify-content: center;">
+        <div id="reader" style="width: 500px;">
 
+        </div>
     </div>
+    <p id="cod">Codigo lido: </p>
 
-    <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
+    <script src="https://unpkg.com/html5-qrcode"></script>
+
     <script>
-        function onScanSuccess(decodedText, decodedResult) {
-            // handle the scanned code as you like, for example:
-            alert(`Code matched = ${decodedText}`, decodedResult);
-        }
-        
-        /*
-        function onScanFailure(error) {
-            // handle scan failure, usually better to ignore and keep scanning.
-            // for example:
-            alert(`Code scan error = ${error}`);
-        }
-        */
-        
-        let html5QrcodeScanner = new Html5QrcodeScanner(
-            "reader",
-            { fps: 10, qrbox: {width: 500, height: 500} },
-            /* verbose= */ false);
-        html5QrcodeScanner.render(onScanSuccess, onScanFailure);
+        function domready(fn){
+            if (document.readyState === "complete" || document.readyState === "interactive"){
+                setTimeout(fn, 1)
+            }
+            else{
+                document.addEventListener("DOMContentLoaded", fn)
+            }
+        }   
+
+        domready(function(){
+            var myqr = document.getElementById("cod")
+            var lastresult, countresult = 0
+
+            function onScanSuccess(decodetext, decodeesult){
+                if (decodetext !== lastresult){
+                    countresult++
+                    lastresult = decodetext
+
+                    alert("Your QR is: " + decodetext,decodeesult)
+
+                    myqr.innerHTML = `Codigo lido: ${decodetext}`
+                }
+            }
+
+            var htmlscanner = new Html5QrcodeScanner(
+                'reader',{fps:10,qrbox:250})
+            
+            htmlscanner.render(onScanSuccess)
+        })
     </script>
 </body>
 </html>
