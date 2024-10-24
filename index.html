@@ -12,7 +12,13 @@
 
         </div>
     </div>
-    <p id="cod">Codigo lido: </p>
+    <table id="cod">
+        <tr>
+            <th>Id</th>
+            <th>Codigo</th>
+        </tr>
+
+    </table>
 
     <script src="https://unpkg.com/html5-qrcode"></script>
 
@@ -34,10 +40,7 @@
                 if (decodetext !== lastresult){
                     countresult++
                     lastresult = decodetext
-
-                    alert("Your QR is: " + decodetext,decodeesult)
-
-                    myqr.innerHTML = `Codigo lido: ${decodetext}`
+                    myqr.innerHTML += `<tr><td>${countresult}</td><td>${decodetext}</td></tr>`
                 }
             }
 
